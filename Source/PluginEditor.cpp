@@ -15,7 +15,10 @@ ChorusDelayAudioProcessorEditor::ChorusDelayAudioProcessorEditor (ChorusDelayAud
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (400, 300);
+    setSize (MAIN_PANEL_WIDTH, MAIN_PANEL_HEIGHT);
+
+    mMainPanel = std::make_unique<CLMainPanel>(&audioProcessor); // editor has refernce to processor, not pointer
+    addAndMakeVisible(mMainPanel.get());
 }
 
 ChorusDelayAudioProcessorEditor::~ChorusDelayAudioProcessorEditor()
@@ -30,7 +33,7 @@ void ChorusDelayAudioProcessorEditor::paint (juce::Graphics& g)
 
     g.setColour (juce::Colours::white);
     g.setFont (15.0f);
-    g.drawFittedText ("Hello World!", getLocalBounds(), juce::Justification::centred, 1);
+    g.drawFittedText ("", getLocalBounds(), juce::Justification::centred, 1);
 }
 
 void ChorusDelayAudioProcessorEditor::resized()
