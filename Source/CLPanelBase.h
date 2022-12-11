@@ -10,9 +10,10 @@
 
 #pragma once
 
-#include "JuceHeader.h"
 #include "PluginProcessor.h"
 #include "CLInterfaceDefines.h"
+#include "JuceHeader.h"
+#include "CLHelperFunctions.h"
 
 class CLPanelBase:
     public Component

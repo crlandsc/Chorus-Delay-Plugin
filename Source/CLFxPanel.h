@@ -9,3 +9,30 @@
 */
 
 #pragma once
+
+#include "CLPanelBase.h"
+
+enum CLFxPanelStyle
+{
+    kCLFxPanelStyle_Delay,
+    kCLFxPanelStyle_Chorus,
+    kCLFxPanelStyle_TotalNumStyles
+};
+
+class CLFxPanel :
+    public CLPanelBase
+{
+public:
+
+    CLFxPanel(ChorusDelayAudioProcessor* inProcessor);
+    ~CLFxPanel();
+
+    void paint(Graphics& g) override;
+
+    void setFxPanelStyle(CLFxPanelStyle inStyle);
+
+private:
+
+    CLFxPanelStyle mStyle;
+
+};

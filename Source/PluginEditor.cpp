@@ -9,15 +9,21 @@
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
 
+#include "CLInterfaceDefines.h"
+
 //==============================================================================
-ChorusDelayAudioProcessorEditor::ChorusDelayAudioProcessorEditor (ChorusDelayAudioProcessor& p)
-    : AudioProcessorEditor (&p), audioProcessor (p)
+ChorusDelayAudioProcessorEditor::ChorusDelayAudioProcessorEditor(ChorusDelayAudioProcessor& p)
+    : AudioProcessorEditor(&p)
+    , audioProcessor(p)
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (MAIN_PANEL_WIDTH, MAIN_PANEL_HEIGHT);
+    setSize (
+        MAIN_PANEL_WIDTH,
+        MAIN_PANEL_HEIGHT);
 
     mMainPanel = std::make_unique<CLMainPanel>(&audioProcessor); // editor has refernce to processor, not pointer
+    mMainPanel->setTopLeftPosition(0, 0);
     addAndMakeVisible(mMainPanel.get());
 }
 

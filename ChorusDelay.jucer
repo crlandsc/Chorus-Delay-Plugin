@@ -8,30 +8,45 @@
               pluginManufacturer="Christopher Landschoot" pluginVST3Category="Delay,Modulation"
               pluginAAXCategory="16,32">
   <MAINGROUP id="o3nwip" name="ChorusDelay">
-    <GROUP id="{98ACFA44-C4BC-5CE2-781E-43451CDFAC29}" name="Panels">
-      <FILE id="DkGTzt" name="CLCenterPanel.cpp" compile="1" resource="0"
-            file="Source/CLCenterPanel.cpp"/>
-      <FILE id="GvugKq" name="CLCenterPanel.h" compile="0" resource="0" file="Source/CLCenterPanel.h"/>
-      <FILE id="f8VHSv" name="CLCenterPanelMenuBar.cpp" compile="1" resource="0"
-            file="Source/CLCenterPanelMenuBar.cpp"/>
-      <FILE id="bY8ICp" name="CLCenterPanelMenuBar.h" compile="0" resource="0"
-            file="Source/CLCenterPanelMenuBar.h"/>
-      <FILE id="uEdIgA" name="CLFxPanel.cpp" compile="1" resource="0" file="Source/CLFxPanel.cpp"/>
-      <FILE id="FEsSqS" name="CLFxPanel.h" compile="0" resource="0" file="Source/CLFxPanel.h"/>
-      <FILE id="FBeLWu" name="CLGainPanel.cpp" compile="1" resource="0" file="Source/CLGainPanel.cpp"/>
-      <FILE id="yqFtN8" name="CLGainPanel.h" compile="0" resource="0" file="Source/CLGainPanel.h"/>
-      <FILE id="r5REjI" name="CLMainPanel.cpp" compile="1" resource="0" file="Source/CLMainPanel.cpp"/>
-      <FILE id="PaKvhs" name="CLMainPanel.h" compile="0" resource="0" file="Source/CLMainPanel.h"/>
-      <FILE id="s90XKG" name="CLPanelBase.cpp" compile="1" resource="0" file="Source/CLPanelBase.cpp"/>
-      <FILE id="xPMR6T" name="CLPanelBase.h" compile="0" resource="0" file="Source/CLPanelBase.h"/>
-      <FILE id="VtEVxT" name="CLTopPanel.cpp" compile="1" resource="0" file="Source/CLTopPanel.cpp"/>
-      <FILE id="b2tvG6" name="CLTopPanel.h" compile="0" resource="0" file="Source/CLTopPanel.h"/>
+    <GROUP id="{6CC26851-DBF9-0425-CDC4-9C3D0609F54C}" name="UI">
+      <GROUP id="{98ACFA44-C4BC-5CE2-781E-43451CDFAC29}" name="Panels">
+        <FILE id="DkGTzt" name="CLCenterPanel.cpp" compile="1" resource="0"
+              file="Source/CLCenterPanel.cpp"/>
+        <FILE id="GvugKq" name="CLCenterPanel.h" compile="0" resource="0" file="Source/CLCenterPanel.h"/>
+        <FILE id="f8VHSv" name="CLCenterPanelMenuBar.cpp" compile="1" resource="0"
+              file="Source/CLCenterPanelMenuBar.cpp"/>
+        <FILE id="bY8ICp" name="CLCenterPanelMenuBar.h" compile="0" resource="0"
+              file="Source/CLCenterPanelMenuBar.h"/>
+        <FILE id="uEdIgA" name="CLFxPanel.cpp" compile="1" resource="0" file="Source/CLFxPanel.cpp"/>
+        <FILE id="FEsSqS" name="CLFxPanel.h" compile="0" resource="0" file="Source/CLFxPanel.h"/>
+        <FILE id="FBeLWu" name="CLGainPanel.cpp" compile="1" resource="0" file="Source/CLGainPanel.cpp"/>
+        <FILE id="yqFtN8" name="CLGainPanel.h" compile="0" resource="0" file="Source/CLGainPanel.h"/>
+        <FILE id="r5REjI" name="CLMainPanel.cpp" compile="1" resource="0" file="Source/CLMainPanel.cpp"/>
+        <FILE id="PaKvhs" name="CLMainPanel.h" compile="0" resource="0" file="Source/CLMainPanel.h"/>
+        <FILE id="s90XKG" name="CLPanelBase.cpp" compile="1" resource="0" file="Source/CLPanelBase.cpp"/>
+        <FILE id="xPMR6T" name="CLPanelBase.h" compile="0" resource="0" file="Source/CLPanelBase.h"/>
+        <FILE id="VtEVxT" name="CLTopPanel.cpp" compile="1" resource="0" file="Source/CLTopPanel.cpp"/>
+        <FILE id="b2tvG6" name="CLTopPanel.h" compile="0" resource="0" file="Source/CLTopPanel.h"/>
+      </GROUP>
     </GROUP>
     <GROUP id="{4F7F9EBB-8C8B-9015-B820-48F39598BD8F}" name="Helpers">
       <FILE id="hpsUbZ" name="CLAudioHelpers.h" compile="0" resource="0"
             file="Source/CLAudioHelpers.h"/>
+      <FILE id="CrGxMT" name="CLHelperFunctions.h" compile="0" resource="0"
+            file="Source/CLHelperFunctions.h"/>
       <FILE id="OI7MO0" name="CLInterfaceDefines.h" compile="0" resource="0"
             file="Source/CLInterfaceDefines.h"/>
+    </GROUP>
+    <GROUP id="{E2340F60-C553-2B7C-03D8-AAF42741B071}" name="Parameters">
+      <FILE id="MAljiD" name="CLParameterComboBox.cpp" compile="1" resource="0"
+            file="Source/CLParameterComboBox.cpp"/>
+      <FILE id="cKE2Ks" name="CLParameterComboBox.h" compile="0" resource="0"
+            file="Source/CLParameterComboBox.h"/>
+      <FILE id="ohR78Q" name="CLParameterSlider.cpp" compile="1" resource="0"
+            file="Source/CLParameterSlider.cpp"/>
+      <FILE id="fCCTfb" name="CLParameterSlider.h" compile="0" resource="0"
+            file="Source/CLParameterSlider.h"/>
+      <FILE id="ZdPNeL" name="CLParameters.h" compile="0" resource="0" file="Source/CLParameters.h"/>
     </GROUP>
     <GROUP id="{25944BEE-974D-4720-2928-8A2CAABEC6D5}" name="DSP">
       <FILE id="eGznIk" name="CLDelay.cpp" compile="1" resource="0" file="Source/CLDelay.cpp"/>
@@ -71,6 +86,9 @@
         <MODULEPATH id="juce_graphics" path="../../../../_SDKs/JUCE/modules"/>
         <MODULEPATH id="juce_gui_basics" path="../../../../_SDKs/JUCE/modules"/>
         <MODULEPATH id="juce_gui_extra" path="../../../../_SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="../../../../_SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="../../../../_SDKs/JUCE/modules"/>
+        <MODULEPATH id="juce_video" path="../../../../_SDKs/JUCE/modules"/>
       </MODULEPATHS>
     </VS2022>
   </EXPORTFORMATS>
@@ -83,10 +101,13 @@
     <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
     <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
+    <MODULE id="juce_video" showAllCode="1" useLocalCopy="0" useGlobalPath="1"/>
   </MODULES>
 </JUCERPROJECT>

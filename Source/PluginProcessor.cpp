@@ -8,6 +8,25 @@
 
 #include "PluginProcessor.h"
 #include "PluginEditor.h"
+#include "CLParameters.h"
+
+// Initialize Parameters
+/** (Need to do this pre - constructor otherwise unhandled exception thrown for
+"this" being a nullptr) */
+AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
+{
+    std::vector<std::unique_ptr<AudioParameterFloat>> params;
+
+    for (int i = 0; i < kParameter_TotalNumParameters; i++) {
+
+        params.push_back(std::make_unique<AudioParameterFloat>(CLParameterID[i],
+            CLParameterLabel[i],
+            NormalisableRange<float>(0.0f, 1.0f),
+            CLParameterDefaultValue[i]));
+    }
+
+    return { params.begin(), params.end() };
+}
 
 //==============================================================================
 ChorusDelayAudioProcessor::ChorusDelayAudioProcessor()
@@ -19,9 +38,16 @@ ChorusDelayAudioProcessor::ChorusDelayAudioProcessor()
                       #endif
                        .withOutput ("Output", juce::AudioChannelSet::stereo(), true)
                      #endif
-                       )
+                       ),
+        parameters(
+            *this,
+            nullptr, //null pointer to undoManager (optional)
+            juce::Identifier("CL"), // valueTree identifier
+            createParameterLayout()) // initialize parameters
 #endif
 {
+    //initializeParameters(); // Call before DSP in case DSP relies on a parameter
+
     initializeDSP();
 }
 
@@ -161,26 +187,34 @@ void ChorusDelayAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
     // the samples and the outer loop is handling the channels.
     // Alternatively, you can process the samples with the channels
     // interleaved by keeping the same state.
+
+    //parameters.state = ValueTree(Identifier("CLParameter")); // Initialize outside of for loop. Attempting to avoid Reaper crashes
+
     for (int channel = 0; channel < totalNumInputChannels; ++channel)
     {
         auto* channelData = buffer.getWritePointer (channel);
 
-        mGain[channel]->process(channelData, 
-            0.5,
+        mInputGain[channel]->process(channelData,
+            getParameter(kParameter_InputGain),
             channelData,
             buffer.getNumSamples());
 
-        float rate = (channel == 0) ? 0 : 0.25f; // Only modulate 1 channel to make a chorus
+        float rate = (channel == 0) ? 0 : getParameter(kParameter_ModulationRate); // Only modulate 1 channel to make a chorus (L unaffected, R modulated)
 
         mLfo[channel]->process(rate,
-            0.5,
+            getParameter(kParameter_ModulationDepth),
             buffer.getNumSamples());
 
         mDelay[channel]->process(channelData,
-            0.5,
-            0.5,
-            1.0,
+            getParameter(kParameter_DelayTime),
+            getParameter(kParameter_DelayFeedback),
+            getParameter(kParameter_DelayWetDry),
             mLfo[channel]->getBuffer(),
+            channelData,
+            buffer.getNumSamples());
+
+        mOutputGain[channel]->process(channelData,
+            getParameter(kParameter_OutputGain),
             channelData,
             buffer.getNumSamples());
 
@@ -216,11 +250,30 @@ void ChorusDelayAudioProcessor::initializeDSP()
 {
     // Processing in stereo currently. To include multi-out later
     for (int i = 0; i < 2; i++) {
-        mGain[i] = std::make_unique<CLGain>(); //  initialize gain
+        mInputGain[i] = std::make_unique<CLGain>(); //  initialize gain
         mDelay[i] = std::make_unique<CLDelay>(); // initialize delay
         mLfo[i] = std::make_unique<CLLfo>(); // initialize LFO
+        mOutputGain[i] = std::make_unique<CLGain>(); //  initialize gain
     }
 
+}
+
+void ChorusDelayAudioProcessor::initializeParameters()
+{
+    /*
+    for (int i = 0; i < kParameter_TotalNumParameters; i++) {
+        parameters.createAndAddParameter(
+            CLParameterID[i],
+            CLParameterID[i],
+            CLParameterID[i],
+            NormalisableRange<float>(0.0f, 1.0f),
+            0.5f,
+            nullptr,
+            nullptr);
+    }
+
+    parameters.state = ValueTree(Identifier("CLParameters")); // Identifier object as a constructor argument to initialize (Depricated)
+    */
 }
 
 //==============================================================================

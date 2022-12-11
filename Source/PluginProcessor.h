@@ -9,6 +9,8 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include "CLParameters.h"
+
 #include "CLGain.h"
 #include "CLDelay.h"
 #include "CLLfo.h"
@@ -59,12 +61,18 @@ public:
     void getStateInformation (juce::MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
+    AudioProcessorValueTreeState parameters;
+
 private:
 
     // Internal
     void initializeDSP(); // initializes all processes
 
-    std::unique_ptr<CLGain> mGain [2]; // Process L and R channels independently. Could implement interleaved if desired.
+    // Internal
+    void initializeParameters(); // Initialize all parameters
+
+    std::unique_ptr<CLGain> mInputGain [2]; // Input gain. Process L and R channels independently. Could implement interleaved if desired.
+    std::unique_ptr<CLGain> mOutputGain [2]; // Output gain
     std::unique_ptr<CLDelay> mDelay[2]; // Delay object
     std::unique_ptr<CLLfo> mLfo[2];
 

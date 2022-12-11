@@ -8,14 +8,18 @@
   ==============================================================================
 */
 
+
 #pragma once
 
 #include "CLPanelBase.h"
+
 #include "CLTopPanel.h"
 #include "CLGainPanel.h"
+#include "CLFxPanel.h"
 #include "CLCenterPanel.h"
 
-class CLMainPanel : public CLPanelBase
+class CLMainPanel :
+    public CLPanelBase
 {
 public:
 
@@ -30,4 +34,32 @@ private:
     std::unique_ptr<CLCenterPanel> mCenterPanel;
 
 };
+
+
+
+/*
+#pragma once
+
+#include "CLPanelBase.h"
+
+#include "CLTopPanel.h"
+#include "CLGainPanel.h"
+#include "CLFxPanel.h"
+#include "CLCenterPanel.h"
+
+class CLMainPanel
+    : public CLPanelBase
+{
+public:
+    CLMainPanel(ChorusDelayAudioProcessor* processor);
+    ~CLMainPanel();
+
+private:
+
+    std::unique_ptr<CLTopPanel> mTopPanel;
+    std::unique_ptr<CLGainPanel> mInputGainPanel;
+    std::unique_ptr<CLGainPanel> mOutputputGainPanel;
+    std::unique_ptr<CLCenterPanel> mCenterPanel;
+};
+*/
 

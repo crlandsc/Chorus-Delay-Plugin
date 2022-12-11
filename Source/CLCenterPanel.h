@@ -11,6 +11,7 @@
 #pragma once
 #include "CLPanelBase.h"
 #include "CLCenterPanelMenuBar.h"
+#include "CLFxPanel.h"
 
 class CLCenterPanel :
     public CLPanelBase
@@ -23,5 +24,5 @@ public:
 private:
 
     std::unique_ptr<CLCenterPanelMenuBar> mMenuBar;
-
+    std::unique_ptr<CLFxPanel> mFxPanel;
 };
