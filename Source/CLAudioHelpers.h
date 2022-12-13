@@ -13,7 +13,7 @@
 #define clParameterSmoothingCoeff_Generic 0.04
 #define clParameterSmoothingCoeff_Fine 0.002
 
-const static int maxBufferSize = 19200; // Needs to be larger than the max delay time. Better to implement with smaller buffers
+const static int maxBufferSize = 192000; // Needs to be larger than the max delay time. Better to implement with smaller buffers
 
 const static double clPI = 3.1415926535897932384626433832795028841968;
 const static double cl2PI = 6.2831853071795864769252867665590057683943;

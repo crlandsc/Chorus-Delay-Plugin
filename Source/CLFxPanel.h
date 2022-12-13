@@ -11,6 +11,7 @@
 #pragma once
 
 #include "CLPanelBase.h"
+#include "CLParameterSlider.h"
 
 enum CLFxPanelStyle
 {
@@ -35,4 +36,5 @@ private:
 
     CLFxPanelStyle mStyle;
 
+    OwnedArray<CLParameterSlider> mSliders;
 };
