@@ -11,6 +11,7 @@
 
 #include "CLGainPanel.h"
 #include "CLParameters.h"
+#include "CLHelperFunctions.h"
 
 CLGainPanel::CLGainPanel(ChorusDelayAudioProcessor* inProcessor) :
     CLPanelBase(inProcessor)
@@ -25,6 +26,15 @@ CLGainPanel::CLGainPanel(ChorusDelayAudioProcessor* inProcessor) :
 CLGainPanel::~CLGainPanel()
 {
 
+}
+
+void CLGainPanel::paint(Graphics& g) // Add slider labels
+{
+    CLPanelBase::paint(g);
+
+    if (mGainSlider) {
+        paintComponentLabel(g, mGainSlider.get());
+    }
 }
 
 void CLGainPanel::setParameterID(int inParameterID)

@@ -31,6 +31,7 @@ void CLLfo::reset()
 void CLLfo::setSampleRate(double inSampleRate)
 {
     mSampleRate = inSampleRate;
+    //reset();
 }
 
 void CLLfo::process(float inRate, float inDepth, int inNumSamples)

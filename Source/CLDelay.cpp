@@ -42,6 +42,7 @@ void CLDelay::process(float* inAudio,
     float inTime,
     float inFeedback,
     float inWetDry,
+    float inType,
     float* inModulationBuffer,
     float* outAudio,
     int inNumSamplesToRender)
@@ -49,14 +50,19 @@ void CLDelay::process(float* inAudio,
     const float wet = inWetDry;
     const float dry = 1.f - wet;
     const float feedbackMapped = jmap(inFeedback, 0.0f, 1.0f, 0.0f, 0.95f); // Map feedback to only 0.95 to avoid infinite feedback
-
+    //const float inTimeMapped = jmap(inTime, 0.000f, 1.000f, 0.010f, 1.000f); // Map delay (creates too much gain when too low)
 
     for (int i = 0; i < inNumSamplesToRender; i++) {
 
-        const double delayTimeModulation = (inTime + 0.002 * inModulationBuffer[i]); // Calculate modulation for delay
-        mTimeSmoothed = mTimeSmoothed - clParameterSmoothingCoeff_Fine * (mTimeSmoothed - delayTimeModulation); // Implement time smmothing each time process block is called
-        
-        const double delayTimeInSamples = ((inTime *delayTimeModulation) * mSampleRate); // Converting the delay time into samples
+        if ((int)inType == kCLType_Delay) {
+            mTimeSmoothed = mTimeSmoothed - clParameterSmoothingCoeff_Fine * (mTimeSmoothed - inTime); // Implement time smoothing each time process block is called
+        }
+        else {
+            const double delayTimeModulation = (0.003 + 0.002 * inModulationBuffer[i]); // Calculate modulation for delay
+            mTimeSmoothed = mTimeSmoothed - clParameterSmoothingCoeff_Fine * (mTimeSmoothed - delayTimeModulation); // Implement time smoothing each time process block is called
+        }
+       
+        const double delayTimeInSamples = (mTimeSmoothed * mSampleRate); // Converting the delay time into samples
         const double sample = getInterpolatedSample(delayTimeInSamples); //  get the interpolated sample
 
         mBuffer[mDelayIndex] = inAudio[i] + (mFeedbackSample * feedbackMapped); // add the delayed sample to the buffer

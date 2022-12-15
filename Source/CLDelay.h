@@ -13,6 +13,12 @@
 #include "JuceHeader.h"
 #include "CLAudioHelpers.h"
 
+enum CLType
+{
+    kCLType_Delay = 0,
+    kCLType_Chorus,
+};
+
 class CLDelay
 {
 public:
@@ -27,6 +33,7 @@ public:
         float inTime, // Delay time in
         float inFeedback, // Feedback in
         float inWetDry, // Wet/dry blend
+        float inType, // which type (Delay/Chorus)
         float* inModulationBuffer, // Connect LFO modulation to delay
         float* outAudio, // Audio out
         int inNumSamplesToRender); // block size

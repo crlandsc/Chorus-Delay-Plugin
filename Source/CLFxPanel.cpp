@@ -19,7 +19,8 @@ CLFxPanel::CLFxPanel(ChorusDelayAudioProcessor* inProcessor) :
 {
     setSize(FX_PANEL_WIDTH, FX_PANEL_HEIGHT);
 
-    setFxPanelStyle(kCLFxPanelStyle_Chorus);
+    const int currentStyle = (int)mProcessor->getParameter(kParameter_Type); // Cast to an int
+    setFxPanelStyle((CLFxPanelStyle)currentStyle); // can int to an enumerated list then assign
 }
 
 CLFxPanel::~CLFxPanel()
@@ -132,8 +133,8 @@ void CLFxPanel::setFxPanelStyle(CLFxPanelStyle inStyle)
         CLParameterSlider* wetdry =
             new CLParameterSlider(
                 mProcessor->parameters,
-                CLParameterID[kParameter_DelayWetDry],
-                CLParameterLabel[kParameter_DelayWetDry]);
+                CLParameterID[kParameter_WetDry],
+                CLParameterLabel[kParameter_WetDry]);
         wetdry->setBounds(x, y, slider_size, slider_size);
         mSliders.add(wetdry);
         addAndMakeVisible(wetdry);
@@ -201,8 +202,8 @@ void CLFxPanel::setFxPanelStyle(CLFxPanelStyle inStyle)
 
         CLParameterSlider* wetdry =
             new CLParameterSlider(mProcessor->parameters,
-                CLParameterID[kParameter_DelayWetDry],
-                CLParameterLabel[kParameter_DelayWetDry]);
+                CLParameterID[kParameter_WetDry],
+                CLParameterLabel[kParameter_WetDry]);
         wetdry->setBounds(x, y, slider_size, slider_size);
         mSliders.add(wetdry);
         addAndMakeVisible(wetdry);
@@ -210,12 +211,22 @@ void CLFxPanel::setFxPanelStyle(CLFxPanelStyle inStyle)
 
     } break;
 
-    //default: // If not initialized correctly, this case will default to throw error.
-    //case(kCLFxPanelStyle_TotalNumStyles): {
+    default: // If not initialized correctly, this case will default to throw error.
+    case(kCLFxPanelStyle_TotalNumStyles): {
 
-    //    // This shouldn't ever happen
-    //    jassertfalse; // JUCE macro to stop debugging at this point whenever this line is read
-    //} break;
+        // This shouldn't ever happen
+        jassertfalse; // JUCE macro to stop debugging at this point whenever this line is read
+    } break;
     }
+
+    repaint(); // Repaint after style is switched
+}
+
+void CLFxPanel::comboBoxChanged(ComboBox* comboBoxThatHasChanged)
+{
+
+    CLFxPanelStyle style = (CLFxPanelStyle)comboBoxThatHasChanged->getSelectedItemIndex(); // cast changed combobox to a style
+
+    setFxPanelStyle(style); // set the "style" when the combo box has changed
 
 }

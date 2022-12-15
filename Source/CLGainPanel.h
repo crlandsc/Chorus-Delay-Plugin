@@ -22,6 +22,8 @@ public:
     CLGainPanel(ChorusDelayAudioProcessor* inProcessor);
     ~CLGainPanel();
 
+    void paint(Graphics& g) override;  // Add slider labels
+
     void setParameterID(int inParameterID);
 
 private:

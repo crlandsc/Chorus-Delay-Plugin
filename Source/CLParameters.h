@@ -16,7 +16,7 @@ enum {
     kParameter_ModulationDepth,
     kParameter_DelayTime,
     kParameter_DelayFeedback,
-    kParameter_DelayWetDry,
+    kParameter_WetDry,
     kParameter_Type,
     kParameter_OutputGain,
     kParameter_TotalNumParameters
@@ -29,7 +29,7 @@ static String CLParameterID[kParameter_TotalNumParameters] =
     "ModulationDepth",
     "DelayTime",
     "DelayFeedback",
-    "DelayWetDry",
+    "WetDry",
     "DelayType",
     "OutputGain"
 };
@@ -41,7 +41,7 @@ static String CLParameterLabel[kParameter_TotalNumParameters] =
     "Modulation Depth",
     "Delay Time",
     "Delay Feedback",
-    "Delay WetDry",
+    "Wet/Dry",
     "Delay Type",
     "Output Gain"
 };

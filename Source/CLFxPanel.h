@@ -21,7 +21,8 @@ enum CLFxPanelStyle
 };
 
 class CLFxPanel :
-    public CLPanelBase
+    public CLPanelBase,
+    public ComboBox::Listener
 {
 public:
 
@@ -31,6 +32,8 @@ public:
     void paint(Graphics& g) override;
 
     void setFxPanelStyle(CLFxPanelStyle inStyle);
+
+    void comboBoxChanged(ComboBox* comboBoxThatHasChanged) override;
 
 private:
 

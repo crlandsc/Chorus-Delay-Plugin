@@ -22,8 +22,11 @@ CLCenterPanel::CLCenterPanel(ChorusDelayAudioProcessor* inProcessor) :
     mFxPanel = std::make_unique<CLFxPanel>(inProcessor);
     mFxPanel->setTopLeftPosition(0, CENTER_PANEL_MENU_BAR_HEIGHT);
     addAndMakeVisible(mFxPanel.get());
+
+    mMenuBar->addFxTypeComboBoxListener(mFxPanel.get()); // add listener tp menu bar
 }
 
 CLCenterPanel::~CLCenterPanel()
 {
+    mMenuBar->removeFxTypeComboBoxListener(mFxPanel.get()); // remove the listener when deconstructed
 }
