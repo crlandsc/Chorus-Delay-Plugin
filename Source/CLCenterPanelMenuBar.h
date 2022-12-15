@@ -10,6 +10,7 @@
 
 #pragma once
 #include "CLPanelBase.h"
+#include "CLParameterComboBox.h"
 
 class CLCenterPanelMenuBar :
     public CLPanelBase
@@ -20,5 +21,7 @@ public:
     ~CLCenterPanelMenuBar();
 
 private:
+
+    std::unique_ptr<CLParameterComboBox> mFxTypeComboBox;
 
 };

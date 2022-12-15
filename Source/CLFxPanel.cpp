@@ -11,6 +11,7 @@
 #include "CLFxPanel.h"
 
 #include "CLParameters.h"
+#include "CLHelperFunctions.h"
 
 CLFxPanel::CLFxPanel(ChorusDelayAudioProcessor* inProcessor) :
     CLPanelBase(inProcessor)
@@ -18,7 +19,7 @@ CLFxPanel::CLFxPanel(ChorusDelayAudioProcessor* inProcessor) :
 {
     setSize(FX_PANEL_WIDTH, FX_PANEL_HEIGHT);
 
-    setFxPanelStyle(kCLFxPanelStyle_Delay);
+    setFxPanelStyle(kCLFxPanelStyle_Chorus);
 }
 
 CLFxPanel::~CLFxPanel()
@@ -33,12 +34,12 @@ void CLFxPanel::paint(Graphics& g)
     {
     case(kCLFxPanelStyle_Delay): {
 
-        g.drawFittedText("DELAY", 0, 0, getWidth(), getHeight(), Justification::centred, 1);
+        g.drawFittedText("DELAY", 0, 0, getWidth(), getHeight() * 0.75, Justification::centred, 1);
     } break;
 
     case(kCLFxPanelStyle_Chorus): {
 
-        g.drawFittedText("CHORUS", 0, 0, getWidth(), getHeight(), Justification::centred, 1);
+        g.drawFittedText("CHORUS", 0, 0, getWidth(), getHeight() * 0.75, Justification::centred, 1);
     } break;
 
     default: // If not initialized correctly, this case will default to throw error.
@@ -49,6 +50,12 @@ void CLFxPanel::paint(Graphics& g)
         jassertfalse; // JUCE macro to stop debugging at this point whenever this line is read
     } break;
     }
+
+    // Run pain routine on each slider - NEED TO IMPLEMENT JUCE'S LABEL CLASS
+    for (int i = 0; i < mSliders.size(); i++) {
+        paintComponentLabel(g, mSliders[i]);
+    }
+
 }
 
 void CLFxPanel::setFxPanelStyle(CLFxPanelStyle inStyle)
@@ -66,6 +73,7 @@ void CLFxPanel::setFxPanelStyle(CLFxPanelStyle inStyle)
     case(kCLFxPanelStyle_Delay):
     {
         /*
+        * SMART POINTER IMPLEMENTATION - DOES NOT WORK *
         // Construct Delay Time Slider
         std::unique_ptr<CLParameterSlider> time =
             std::make_unique<CLParameterSlider>(mProcessor->parameters,
@@ -98,13 +106,13 @@ void CLFxPanel::setFxPanelStyle(CLFxPanelStyle inStyle)
 
         */
 
-
         // --------------------------------------------------
-        // Implement with raw pointers (is these an acceptable way to use smart pointers)
+        // Implement with raw pointers (How to implement with smart pointers?)
         // --------------------------------------------------
 
         CLParameterSlider* time =
-            new CLParameterSlider(mProcessor->parameters,
+            new CLParameterSlider(
+                mProcessor->parameters,
                 CLParameterID[kParameter_DelayTime],
                 CLParameterLabel[kParameter_DelayTime]);
         time->setBounds(x, y, slider_size, slider_size);
@@ -122,7 +130,8 @@ void CLFxPanel::setFxPanelStyle(CLFxPanelStyle inStyle)
         x = x + (slider_size * 2);
 
         CLParameterSlider* wetdry =
-            new CLParameterSlider(mProcessor->parameters,
+            new CLParameterSlider(
+                mProcessor->parameters,
                 CLParameterID[kParameter_DelayWetDry],
                 CLParameterLabel[kParameter_DelayWetDry]);
         wetdry->setBounds(x, y, slider_size, slider_size);
@@ -130,17 +139,13 @@ void CLFxPanel::setFxPanelStyle(CLFxPanelStyle inStyle)
         addAndMakeVisible(wetdry);
         x = x + (slider_size * 2);
 
-
-
-
-
     } break;
 
     case(kCLFxPanelStyle_Chorus):
     {
 
-        // -------------- [NEED TO IMPLEMENT WITH RAW POINTERS] --------------
-
+        /*
+        * SMART POINTER IMPLEMENTATION - DOES NOT WORK *
         // Construct Chorus Rate Slider
         std::unique_ptr<CLParameterSlider> rate =
             std::make_unique<CLParameterSlider>(mProcessor->parameters,
@@ -169,6 +174,38 @@ void CLFxPanel::setFxPanelStyle(CLFxPanelStyle inStyle)
         wetdry->setBounds(x, y, slider_size, slider_size);
         addAndMakeVisible(wetdry.get());
         mSliders.add(wetdry.get());
+        x = x + (slider_size * 2);
+        */
+
+        // --------------------------------------------------
+        // Implement with raw pointers (How to implement with smart pointers?)
+        // --------------------------------------------------
+
+        CLParameterSlider* rate =
+            new CLParameterSlider(mProcessor->parameters,
+                CLParameterID[kParameter_ModulationRate],
+                CLParameterLabel[kParameter_ModulationRate]);
+        rate->setBounds(x, y, slider_size, slider_size);
+        mSliders.add(rate);
+        addAndMakeVisible(rate);
+        x = x + (slider_size * 2);
+
+        CLParameterSlider* depth =
+            new CLParameterSlider(mProcessor->parameters,
+                CLParameterID[kParameter_ModulationDepth],
+                CLParameterLabel[kParameter_ModulationDepth]);
+        depth->setBounds(x, y, slider_size, slider_size);
+        mSliders.add(depth);
+        addAndMakeVisible(depth);
+        x = x + (slider_size * 2);
+
+        CLParameterSlider* wetdry =
+            new CLParameterSlider(mProcessor->parameters,
+                CLParameterID[kParameter_DelayWetDry],
+                CLParameterLabel[kParameter_DelayWetDry]);
+        wetdry->setBounds(x, y, slider_size, slider_size);
+        mSliders.add(wetdry);
+        addAndMakeVisible(wetdry);
         x = x + (slider_size * 2);
 
     } break;
