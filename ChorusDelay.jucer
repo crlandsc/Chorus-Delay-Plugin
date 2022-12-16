@@ -8,6 +8,12 @@
               pluginManufacturer="Christopher Landschoot" pluginVST3Category="Delay,Modulation"
               pluginAAXCategory="16,32">
   <MAINGROUP id="o3nwip" name="ChorusDelay">
+    <GROUP id="{2C5E11CA-5E01-DF14-E633-36CD3EAABD8A}" name="Managers">
+      <FILE id="k8cNoE" name="CLPresetManager.cpp" compile="1" resource="0"
+            file="Source/CLPresetManager.cpp"/>
+      <FILE id="OdlBur" name="CLPresetManager.h" compile="0" resource="0"
+            file="Source/CLPresetManager.h"/>
+    </GROUP>
     <GROUP id="{6CC26851-DBF9-0425-CDC4-9C3D0609F54C}" name="UI">
       <GROUP id="{98ACFA44-C4BC-5CE2-781E-43451CDFAC29}" name="Panels">
         <FILE id="DkGTzt" name="CLCenterPanel.cpp" compile="1" resource="0"

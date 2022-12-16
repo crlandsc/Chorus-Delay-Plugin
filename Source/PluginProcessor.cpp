@@ -49,6 +49,8 @@ ChorusDelayAudioProcessor::ChorusDelayAudioProcessor()
     //initializeParameters(); // Call before DSP in case DSP relies on a parameter
 
     initializeDSP();
+
+    mPresetManager = std::make_unique<CLPresetManager>(this); // Pass processor into preset manager
 }
 
 ChorusDelayAudioProcessor::~ChorusDelayAudioProcessor()
@@ -239,12 +241,46 @@ void ChorusDelayAudioProcessor::getStateInformation (juce::MemoryBlock& destData
     // You should use this method to store your parameters in the memory block.
     // You could do that either as raw data, or use the XML or ValueTree classes
     // as intermediaries to make it easy to save and load complex data.
+    DBG("ChorusDelayAudioProcessor::getStateInformation");
+
+    XmlElement preset("CL_StateInfo");
+    XmlElement* presetBody = new XmlElement("CL_Preset");
+
+    mPresetManager->getXmlForPreset(presetBody);
+
+    preset.addChildElement(presetBody);
+    copyXmlToBinary(preset, destData);
+
 }
 
 void ChorusDelayAudioProcessor::setStateInformation (const void* data, int sizeInBytes)
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+
+    const auto xmlState = getXmlFromBinary(data, sizeInBytes); // retrive xml from stored binary data
+
+    jassert(xmlState.get() != nullptr); // break if nullptr
+
+    // Load presets
+    for (auto* subchild : xmlState->getChildIterator()) {
+        mPresetManager->loadPresetForXml(subchild);
+    }
+
+    // --- Don't use smart pointers --- //
+    //std::unique_ptr<XmlElement> xmlState = std::make_unique<XmlElement>(getXmlFromBinary(data, sizeInBytes)); // Creates an XML element from the raw data being passed into setStateInformation
+    //XmlElement* xmlState = getXmlFromBinary(data, sizeInBytes).get(); // retrive xml from stored binary data (need .get() because JUCE class in uniqque_ptr)
+
+    // Load presets
+    //if (xmlState) {
+    //    forEachXmlChildElement(xmlState.get(), subChild) { // Juce macro to iterate over the xml element
+    //        mPresetManager->loadPresetForXml(subChild);
+    //    }
+    //}
+    //else { // If nullptr
+    //    jassertfalse;
+    //}
+
 }
 
 void ChorusDelayAudioProcessor::initializeDSP()

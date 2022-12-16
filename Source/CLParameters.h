@@ -36,14 +36,14 @@ static String CLParameterID[kParameter_TotalNumParameters] =
 
 static String CLParameterLabel[kParameter_TotalNumParameters] =
 {
-    "Input Gain",
-    "Modulation Rate",
-    "Modulation Depth",
-    "Delay Time",
-    "Delay Feedback",
-    "Wet/Dry",
-    "Delay Type",
-    "Output Gain"
+    "InputGain",
+    "ModulationRate",
+    "ModulationDepth",
+    "DelayTime",
+    "DelayFeedback",
+    "WetDry",
+    "DelayType",
+    "OutputGain"
 };
 
 static float CLParameterDefaultValue[kParameter_TotalNumParameters] =

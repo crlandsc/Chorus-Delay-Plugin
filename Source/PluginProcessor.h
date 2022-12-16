@@ -10,10 +10,12 @@
 
 #include <JuceHeader.h>
 #include "CLParameters.h"
+#include "CLPresetManager.h"
 
 #include "CLGain.h"
 #include "CLDelay.h"
 #include "CLLfo.h"
+
 
 //==============================================================================
 /**
@@ -76,6 +78,7 @@ private:
     std::unique_ptr<CLDelay> mDelay[2]; // Delay object
     std::unique_ptr<CLLfo> mLfo[2];
 
+    std::unique_ptr<CLPresetManager> mPresetManager;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ChorusDelayAudioProcessor)
 };
