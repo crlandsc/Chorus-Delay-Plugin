@@ -19,8 +19,9 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
 
     for (int i = 0; i < kParameter_TotalNumParameters; i++) {
 
-        params.push_back(std::make_unique<AudioParameterFloat>(CLParameterID[i],
-            CLParameterLabel[i],
+        params.push_back(std::make_unique<AudioParameterFloat>(
+            CLParameterID[i],
+            CLParameterID[i], // Can't put CLParameterLabel[i] here because of spaces in enum names
             NormalisableRange<float>(0.0f, 1.0f),
             CLParameterDefaultValue[i]));
     }
