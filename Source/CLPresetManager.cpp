@@ -24,7 +24,9 @@ CLPresetManager::CLPresetManager(AudioProcessor* inProcessor)
 {
     const String pluginName = (String)mProcessor->getName(); // Store name of plugin
 
-    mPresetDirectory = File::getSpecialLocation(File::userDesktopDirectory).getFullPathName() + pluginName; // preset directory path
+    // Preset directory path - Saves presets in "Documents" folder
+    mPresetDirectory =
+        File::getSpecialLocation(File::userDocumentsDirectory).getFullPathName() + directorySeparator + pluginName;
 
     // Check if directory exists
     if (!File(mPresetDirectory).exists()) {
@@ -107,7 +109,7 @@ void CLPresetManager::savePreset()
 
 void CLPresetManager::saveAsPreset(String inPresetName)
 {
-    File presetFile = File(mPresetDirectory + directorySeparator + inPresetName);
+    File presetFile = File(mPresetDirectory + directorySeparator + inPresetName + PRESET_FILE_EXTENSION);
 
     if (!presetFile.exists()) {
         presetFile.create();
