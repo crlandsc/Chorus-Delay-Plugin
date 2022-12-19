@@ -284,6 +284,11 @@ void ChorusDelayAudioProcessor::setStateInformation (const void* data, int sizeI
 
 }
 
+CLPresetManager* ChorusDelayAudioProcessor::getPresetManager()
+{
+    return mPresetManager.get();
+}
+
 void ChorusDelayAudioProcessor::initializeDSP()
 {
     // Processing in stereo currently. To include multi-out later

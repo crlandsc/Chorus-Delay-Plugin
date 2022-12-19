@@ -12,6 +12,8 @@
 
 #include "JuceHeader.h"
 
+#define PRESET_FILE_EXTENSION ".cpf" 
+
 class CLPresetManager
 {
 public:
@@ -24,7 +26,35 @@ public:
 
     void loadPresetForXml(XmlElement* inElement);
 
+    int getNumberOfPresets(); // return the number of presets
+
+    String getPresetName(int inPresetIndex); // return the current preset name
+
+    void createNewPreset(); // create a new preset
+
+    void savePreset(); // Save a preset
+
+    void saveAsPreset(String inPresetName); // Save a new preset
+
+    void loadPreset(int inPresetIndex); // Load a preset via index
+
+    bool getIsCurrentPresetSave(); // Determine if preset is to be saved or save as
+
+    String getCurrentPresetName(); // Returns the name of the current preset
+
 private:
+
+    void storeLocalPresets(); // Used for storing all presets on disk in the memory of the preset manager
+
+    bool mCurrentPresetIsSaved; // Is current preset saved?
+
+    File mCurrentlyLoadedPreset; // Represents currently loaded preset
+
+    Array<File> mLocalPresets; // Array of local presets
+
+    String mCurrentPresetName; // Current preset name
+
+    String mPresetDirectory; // Path of directory to the presets
 
     XmlElement* mCurrentPresetXml;
 

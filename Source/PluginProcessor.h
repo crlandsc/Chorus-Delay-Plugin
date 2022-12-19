@@ -65,6 +65,8 @@ public:
 
     AudioProcessorValueTreeState parameters;
 
+    CLPresetManager* getPresetManager();
+
 private:
 
     // Internal
@@ -73,12 +75,13 @@ private:
     // Internal
     void initializeParameters(); // Initialize all parameters
 
+    std::unique_ptr<CLPresetManager> mPresetManager; // Preset Manager
+
     std::unique_ptr<CLGain> mInputGain [2]; // Input gain. Process L and R channels independently. Could implement interleaved if desired.
     std::unique_ptr<CLGain> mOutputGain [2]; // Output gain
     std::unique_ptr<CLDelay> mDelay[2]; // Delay object
     std::unique_ptr<CLLfo> mLfo[2];
 
-    std::unique_ptr<CLPresetManager> mPresetManager;
     //==============================================================================
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ChorusDelayAudioProcessor)
 };
