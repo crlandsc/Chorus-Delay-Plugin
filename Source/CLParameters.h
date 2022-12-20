@@ -40,7 +40,7 @@ static String CLParameterLabel[kParameter_TotalNumParameters] =
     "Modulation Rate",
     "Modulation Depth",
     "Delay Time",
-    "Delay Feedback",
+    "Feedback",
     "Wet/Dry",
     "Delay Type",
     "Output Gain"

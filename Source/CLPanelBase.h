@@ -22,7 +22,11 @@ public:
     CLPanelBase(ChorusDelayAudioProcessor* inProcessor);
     ~CLPanelBase();
 
-    void paint(Graphics& g) override; // override JUCE paint function
+    void mouseEnter(const MouseEvent& event) override;
+
+    void mouseExit(const MouseEvent& event) override;
+
+    void paint(Graphics& g) override; // override JUCE paint function - currently no functionality
 
 protected: // make protected because this is a base class and members need to be inherited
     ChorusDelayAudioProcessor* mProcessor;

@@ -53,10 +53,14 @@ public:
 
         // Button hover & click colors
         if (isButtonDown) {
-            fillColour = CLColour_5;
+            fillColour = CLColour_6;
         }
         else if (isMouseOverButton) {
             fillColour = CLColour_3;
+        }
+        else
+        {
+            fillColour = CLColour_5;
         }
 
         // Create rectangle for buttons

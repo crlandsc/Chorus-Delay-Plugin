@@ -31,26 +31,32 @@ void CLFxPanel::paint(Graphics& g)
 {
     CLPanelBase::paint(g);
 
+    String label;
+
     switch (mStyle)
     {
     case(kCLFxPanelStyle_Delay): {
-
-        g.drawFittedText("DELAY", 0, 0, getWidth(), getHeight() * 0.75, Justification::centred, 1);
+        label = "DELAY";
+        //g.drawFittedText("DELAY", 0, 0, getWidth(), getHeight() * 0.45, Justification::centred, 1);
     } break;
 
     case(kCLFxPanelStyle_Chorus): {
-
-        g.drawFittedText("CHORUS", 0, 0, getWidth(), getHeight() * 0.75, Justification::centred, 1);
+        label = "CHORUS";
+        //g.drawFittedText("CHORUS", 0, 0, getWidth(), getHeight() * 0.45, Justification::centred, 1);
     } break;
-
+    /*
     default: // If not initialized correctly, this case will default to throw error.
     case(kCLFxPanelStyle_TotalNumStyles): {
-
         // This shouldn't ever happen
         g.drawFittedText("NO NO NO!", 0, 0, getWidth(), getHeight(), Justification::centred, 1);
         jassertfalse; // JUCE macro to stop debugging at this point whenever this line is read
-    } break;
+    } break; */
     }
+
+    g.setColour(CLColour_5);
+    g.setFont(font_3);
+
+    g.drawText(label, 0, 0, getWidth(), 80, Justification::centred);
 
     // Run pain routine on each slider - NEED TO IMPLEMENT JUCE'S LABEL CLASS
     for (int i = 0; i < mSliders.size(); i++) {

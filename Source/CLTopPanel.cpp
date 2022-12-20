@@ -63,7 +63,20 @@ void CLTopPanel::paint(Graphics& g)
 {
     CLPanelBase::paint(g);
 
-    g.drawFittedText("Chorus / Delay", 0, 0, getWidth() - 10, getHeight(), Justification::centredRight, 1);
+    g.setColour(CLColour_1);
+    g.setFont(font_2);
+
+    const int label_w = 220;
+
+    // Add in Title
+    g.drawFittedText(
+        "CL Audio Plugins",
+        TOP_PANEL_WIDTH - label_w - 20,
+        0,
+        label_w,
+        getHeight(),
+        Justification::centredRight,
+        1);
 }
 
 void CLTopPanel::buttonClicked(Button* b)

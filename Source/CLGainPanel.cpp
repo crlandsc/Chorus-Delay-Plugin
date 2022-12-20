@@ -18,8 +18,6 @@ CLGainPanel::CLGainPanel(ChorusDelayAudioProcessor* inProcessor) :
 {
     setSize(GAIN_PANEL_WIDTH,
         GAIN_PANEL_HEIGHT);
-    //setSize(TOP_PANEL_WIDTH,
-    //    TOP_PANEL_HEIGHT);
 
 }
 
@@ -50,7 +48,7 @@ void CLGainPanel::setParameterID(int inParameterID)
 
     mGainSlider->setBounds(
         (getWidth() * 0.5) - (slider_size * 0.5),
-        (slider_size * 0.5),
+        (getHeight() * 0.2) - (slider_size * 0.5),
         slider_size,
         slider_size);
     addAndMakeVisible(mGainSlider.get());
