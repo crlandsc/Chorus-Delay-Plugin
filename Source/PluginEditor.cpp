@@ -10,6 +10,7 @@
 #include "PluginEditor.h"
 
 #include "CLInterfaceDefines.h"
+#include "CLLookAndFeel.h"
 
 //==============================================================================
 ChorusDelayAudioProcessorEditor::ChorusDelayAudioProcessorEditor(ChorusDelayAudioProcessor& p)
@@ -25,6 +26,14 @@ ChorusDelayAudioProcessorEditor::ChorusDelayAudioProcessorEditor(ChorusDelayAudi
     mMainPanel = std::make_unique<CLMainPanel>(&audioProcessor); // editor has refernce to processor, not pointer
     mMainPanel->setTopLeftPosition(0, 0);
     addAndMakeVisible(mMainPanel.get());
+
+    mLookAndFeel = std::make_unique<CLLookAndFeel>();
+    setLookAndFeel(mLookAndFeel.get()); // set look and feel
+
+    LookAndFeel::setDefaultLookAndFeel(mLookAndFeel.get()); // set default look and feel to cover everything
+
+    mBackgroundImage =
+        ImageCache::getFromMemory(BinaryData::Chorus_Delay_bg_png, BinaryData::Chorus_Delay_bg_pngSize);
 }
 
 ChorusDelayAudioProcessorEditor::~ChorusDelayAudioProcessorEditor()
@@ -35,11 +44,7 @@ ChorusDelayAudioProcessorEditor::~ChorusDelayAudioProcessorEditor()
 void ChorusDelayAudioProcessorEditor::paint (juce::Graphics& g)
 {
     // (Our component is opaque, so we must completely fill the background with a solid colour)
-    g.fillAll (getLookAndFeel().findColour (juce::ResizableWindow::backgroundColourId));
-
-    g.setColour (juce::Colours::white);
-    g.setFont (15.0f);
-    g.drawFittedText ("", getLocalBounds(), juce::Justification::centred, 1);
+    g.drawImage(mBackgroundImage, getLocalBounds().toFloat());
 }
 
 void ChorusDelayAudioProcessorEditor::resized()

@@ -8,6 +8,12 @@
               pluginManufacturer="Christopher Landschoot" pluginVST3Category="Delay,Modulation"
               pluginAAXCategory="16,32">
   <MAINGROUP id="o3nwip" name="ChorusDelay">
+    <GROUP id="{CFD35E83-7756-3EED-350B-D6AE73FB48EB}" name="Assets">
+      <FILE id="rCwZuP" name="Chorus_Delay_bg.png" compile="0" resource="1"
+            file="Assets/Chorus_Delay_bg.png"/>
+      <FILE id="f1zHkw" name="Chorus_Delay_knob.png" compile="0" resource="1"
+            file="Assets/Chorus_Delay_knob.png"/>
+    </GROUP>
     <GROUP id="{2C5E11CA-5E01-DF14-E633-36CD3EAABD8A}" name="Managers">
       <FILE id="k8cNoE" name="CLPresetManager.cpp" compile="1" resource="0"
             file="Source/CLPresetManager.cpp"/>
@@ -42,6 +48,7 @@
             file="Source/CLHelperFunctions.h"/>
       <FILE id="OI7MO0" name="CLInterfaceDefines.h" compile="0" resource="0"
             file="Source/CLInterfaceDefines.h"/>
+      <FILE id="wxcKN7" name="CLLookAndFeel.h" compile="0" resource="0" file="Source/CLLookAndFeel.h"/>
     </GROUP>
     <GROUP id="{E2340F60-C553-2B7C-03D8-AAF42741B071}" name="Parameters">
       <FILE id="MAljiD" name="CLParameterComboBox.cpp" compile="1" resource="0"

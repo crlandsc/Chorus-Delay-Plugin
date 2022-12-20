@@ -12,6 +12,7 @@
 #include "PluginProcessor.h"
 
 #include "CLMainPanel.h"
+#include "CLLookAndFeel.h"
 
 //==============================================================================
 /**
@@ -31,6 +32,10 @@ private:
     std::unique_ptr<CLMainPanel> mMainPanel;
     std::unique_ptr<CLParameterSlider> mParameterSlider[kParameter_TotalNumParameters];
     std::unique_ptr<Label> mLabel[kParameter_TotalNumParameters];
+
+    std::unique_ptr<LookAndFeel> mLookAndFeel;
+
+    Image mBackgroundImage;
 
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.

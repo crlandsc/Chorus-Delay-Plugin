@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include "JuceHeader.h"
+
 #define MAIN_PANEL_WIDTH                750
 #define MAIN_PANEL_HEIGHT               300
 
