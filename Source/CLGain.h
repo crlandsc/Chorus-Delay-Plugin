@@ -21,6 +21,10 @@ public:
                         float* outAudio, // Outgoing audio
                         float inNumSamplesToRender); // block size (not guarunteed, so it needs to be specified)
 
+    float getMeterLevel();
+
 private:
+
+    float mOutputSmoothed;
 
 };

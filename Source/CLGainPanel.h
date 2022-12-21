@@ -13,6 +13,7 @@
 
 #include "CLPanelBase.h"
 #include "CLParameterSlider.h"
+#include "CLVuMeter.h"
 
 class CLGainPanel :
     public CLPanelBase
@@ -27,32 +28,9 @@ public:
     void setParameterID(int inParameterID);
 
 private:
-
+    std::unique_ptr<CLVuMeter> mVuMeter;
     std::unique_ptr<CLParameterSlider> mGainSlider;
 
 };
 
 
-/*
-#pragma once
-
-#include "CLPanelBase.h"
-#include "CLParameterSlider.h"
-
-class CLGainPanel
-    : public CLPanelBase
-{
-public:
-    CLGainPanel(ChorusDelayAudioProcessor* processor);
-    ~CLGainPanel();
-
-    // component override
-    void paint(Graphics& g) override;
-
-    void setParameterID(int inParameterID);
-
-private:
-
-    std::unique_ptr<CLParameterSlider> mGain;
-};
-*/

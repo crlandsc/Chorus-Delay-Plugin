@@ -55,11 +55,11 @@ void CLDelay::process(float* inAudio,
     for (int i = 0; i < inNumSamplesToRender; i++) {
 
         if ((int)inType == kCLType_Delay) {
-            mTimeSmoothed = mTimeSmoothed - clParameterSmoothingCoeff_Fine * (mTimeSmoothed - inTime); // Implement time smoothing each time process block is called
+            mTimeSmoothed = mTimeSmoothed - kParameterSmoothingCoeff_Fine * (mTimeSmoothed - inTime); // Implement time smoothing each time process block is called
         }
         else {
             const double delayTimeModulation = (0.003 + 0.002 * inModulationBuffer[i]); // Calculate modulation for delay
-            mTimeSmoothed = mTimeSmoothed - clParameterSmoothingCoeff_Fine * (mTimeSmoothed - delayTimeModulation); // Implement time smoothing each time process block is called
+            mTimeSmoothed = mTimeSmoothed - kParameterSmoothingCoeff_Fine * (mTimeSmoothed - delayTimeModulation); // Implement time smoothing each time process block is called
         }
        
         const double delayTimeInSamples = (mTimeSmoothed * mSampleRate); // Converting the delay time into samples

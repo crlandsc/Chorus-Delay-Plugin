@@ -284,6 +284,20 @@ void ChorusDelayAudioProcessor::setStateInformation (const void* data, int sizeI
 
 }
 
+float ChorusDelayAudioProcessor::getInputGainMeterLevel(int inChannel)
+{
+    const float normalizeddB = dBToNormalizedGain(mInputGain[inChannel]->getMeterLevel());
+
+    return normalizeddB;
+}
+
+float ChorusDelayAudioProcessor::getOutputGainMeterLevel(int inChannel)
+{
+    const float normalizeddB = dBToNormalizedGain(mOutputGain[inChannel]->getMeterLevel());
+
+    return normalizeddB;
+}
+
 CLPresetManager* ChorusDelayAudioProcessor::getPresetManager()
 {
     return mPresetManager.get();

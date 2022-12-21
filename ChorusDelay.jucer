@@ -8,6 +8,10 @@
               pluginManufacturer="Christopher Landschoot" pluginVST3Category="Delay,Modulation"
               pluginAAXCategory="16,32">
   <MAINGROUP id="o3nwip" name="ChorusDelay">
+    <GROUP id="{DE6D5521-1D1B-985B-61A6-0A42E2316F0A}" name="Components">
+      <FILE id="nc3bYN" name="CLVuMeter.cpp" compile="1" resource="0" file="Source/CLVuMeter.cpp"/>
+      <FILE id="VseDtK" name="CLVuMeter.h" compile="0" resource="0" file="Source/CLVuMeter.h"/>
+    </GROUP>
     <GROUP id="{CFD35E83-7756-3EED-350B-D6AE73FB48EB}" name="Assets">
       <FILE id="rCwZuP" name="Chorus_Delay_bg.png" compile="0" resource="1"
             file="Assets/Chorus_Delay_bg.png"/>

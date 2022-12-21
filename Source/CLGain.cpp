@@ -10,9 +10,10 @@
 
 #include "CLGain.h"
 
-#include "JuceHeader.h" // Includes STL
+#include "CLAudioHelpers.h" // Includes STL
 
 CLGain::CLGain()
+    : mOutputSmoothed(0)
 {
 
 }
@@ -34,5 +35,11 @@ void CLGain::process(float* inAudio, // Incoming audio
         outAudio[i] = inAudio[i] * gainMapped; // multiply signal by the gain number
     };
 
+    float absValue = fabs(outAudio[0]); // grab abs value of 1 sample of every buffer
+    mOutputSmoothed = kMeterSmoothingCoeff * (mOutputSmoothed - absValue) + absValue; // smooth that balue to be returned in getMeterLevel()
+}
 
+float CLGain::getMeterLevel()
+{
+    return mOutputSmoothed;
 }
