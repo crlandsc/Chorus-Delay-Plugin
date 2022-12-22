@@ -43,7 +43,7 @@ private:
     double getInterpolatedSample(float inDelayTimeInSamples); // Linear interpolation (to avoid discontinuities)
 
     double mSampleRate;
-    double mBuffer[maxBufferSize]; // buffer size to be updated later
+    double mBuffer[kMaxChannelBufferSize]; // buffer size to be updated later
     double mFeedbackSample;
 
     float mTimeSmoothed; // A smoothed version of the "inTime" argument in the process function

@@ -25,7 +25,7 @@ void CLLfo::reset()
 {
     mPhase = 0.0f;
     //zeromem(mBuffer, sizeof(float) * maxBufferSize); // Reset function that zeros out buffer
-    memset(mBuffer, 0, sizeof(float) * maxBufferSize); // Reset function that zeros out buffer
+    memset(mBuffer, 0, sizeof(float) * kMaxChannelBufferSize); // Reset function that zeros out buffer
 }
 
 void CLLfo::setSampleRate(double inSampleRate)

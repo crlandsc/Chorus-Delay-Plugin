@@ -35,7 +35,7 @@ void CLDelay::reset()
     mTimeSmoothed = 0.0f;
 
     //zeromem(mBuffer, sizeof(double) * maxBufferSize); // Reset function that zeros out buffer
-    memset(mBuffer, 0, sizeof(double) * maxBufferSize); // Reset function that zeros out buffer 
+    memset(mBuffer, 0, sizeof(double) * kMaxChannelBufferSize); // Reset function that zeros out buffer 
 }
 
 void CLDelay::process(float* inAudio,
@@ -49,8 +49,7 @@ void CLDelay::process(float* inAudio,
 {
     const float wet = inWetDry;
     const float dry = 1.f - wet;
-    const float feedbackMapped = jmap(inFeedback, 0.0f, 1.0f, 0.0f, 0.95f); // Map feedback to only 0.95 to avoid infinite feedback
-    //const float inTimeMapped = jmap(inTime, 0.000f, 1.000f, 0.010f, 1.000f); // Map delay (creates too much gain when too low)
+    const float feedbackMapped = (inType == kCLType_Delay) ? jmap(inFeedback, 0.f, 1.f, 0.f, 1.2f) : 0.f; // Map feedback 1-1.2 to allow for soft clipping
 
     for (int i = 0; i < inNumSamplesToRender; i++) {
 
@@ -65,7 +64,9 @@ void CLDelay::process(float* inAudio,
         const double delayTimeInSamples = (mTimeSmoothed * mSampleRate); // Converting the delay time into samples
         const double sample = getInterpolatedSample(delayTimeInSamples); //  get the interpolated sample
 
-        mBuffer[mDelayIndex] = inAudio[i] + (mFeedbackSample * feedbackMapped); // add the delayed sample to the buffer
+        // add the delayed sample to the buffer
+        // Wrap in tanh_clip function to allow for "soft clipping" over 100% feeback
+        mBuffer[mDelayIndex] = tanh_clip(inAudio[i] + (mFeedbackSample * feedbackMapped));
 
         mFeedbackSample = sample; // assign the current sample to the feedback sample
 
@@ -73,8 +74,8 @@ void CLDelay::process(float* inAudio,
 
         mDelayIndex = mDelayIndex + 1; // step delay index
 
-        if (mDelayIndex >= maxBufferSize) { // Check to make sure that the delay index is within buffer
-            mDelayIndex = mDelayIndex - maxBufferSize;
+        if (mDelayIndex >= kMaxChannelBufferSize) { // Check to make sure that the delay index is within buffer
+            mDelayIndex = mDelayIndex - kMaxChannelBufferSize;
         }
     }
 }
@@ -84,18 +85,18 @@ double CLDelay::getInterpolatedSample(float inDelayTimeInSamples)
     double readPosition = (double)mDelayIndex - inDelayTimeInSamples;
 
     if (readPosition < 0.0f) {
-        readPosition = readPosition + maxBufferSize;
+        readPosition = readPosition + kMaxChannelBufferSize;
     }
 
     // Circular buffer indexes
     int index_y0 = (int)readPosition - 1;
     if (index_y0 < 0) { // Check to make sure that the index is not outside of the circular buffer's bounds
-        index_y0 = index_y0 + maxBufferSize; // if index less than 0, then "loop" the value back to end of buffer
+        index_y0 = index_y0 + kMaxChannelBufferSize; // if index less than 0, then "loop" the value back to end of buffer
     }
 
     int index_y1 = readPosition;
-    if (index_y1 >= maxBufferSize) { // Check to make sure that the index is not outside of the circular buffer's bounds
-        index_y1 = index_y1 - maxBufferSize; // if index greater than end of the buffer, then "loop" the value back to the beginning of buffer
+    if (index_y1 >= kMaxChannelBufferSize) { // Check to make sure that the index is not outside of the circular buffer's bounds
+        index_y1 = index_y1 - kMaxChannelBufferSize; // if index greater than end of the buffer, then "loop" the value back to the beginning of buffer
     }
 
     // read samples from circular buffer indexes

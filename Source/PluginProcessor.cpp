@@ -202,7 +202,7 @@ void ChorusDelayAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
             channelData,
             buffer.getNumSamples());
 
-        float rate = (channel == 0) ? 0 : getParameter(kParameter_ModulationRate); // Only modulate 1 channel to make a chorus (L unaffected, R modulated)
+        float rate = channel == 1 ? 0 : getParameter(kParameter_ModulationRate); // Only modulate 1 channel to make a chorus (L unaffected, R modulated)
 
         mLfo[channel]->process(rate,
             getParameter(kParameter_ModulationDepth),

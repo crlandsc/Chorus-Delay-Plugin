@@ -31,4 +31,3 @@ inline void paintComponentLabel(Graphics& g, Component* inComponent)
     g.setFont(font_1);
     g.drawFittedText(label, x, y, w, h, Justification::centred, 1);
 }
-

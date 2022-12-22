@@ -35,7 +35,7 @@ void CLPanelBase::mouseExit(const MouseEvent& event)
 
 void CLPanelBase::paint(Graphics& g)
 {
-    // Mouse interactions using pait routines
+    // Mouse interactions using paint routines
     /* Not implemented currently, but can incorporate later */
     if (isMouseOver()) {
         //g.setColour(CLColour_3);
@@ -47,9 +47,9 @@ void CLPanelBase::paint(Graphics& g)
 
     // --- Depricated paint routine --- //
     /*
-    g.setColour(Colours::whitesmoke);
+    g.setColour(Colours::purple);
     g.fillAll(); // set background color
     g.setColour(Colours::black);
-    g.drawRect(0, 0, getWidth(), getHeight()); // draw a rectangle at the boundary
+    g.drawRoundedRectangle(0, 0, getWidth(), getHeight(), 4, 2); // draw a rectangle at the boundary (rounded)
     */
 }

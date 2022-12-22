@@ -13,12 +13,17 @@
 #include <cmath>
 #include "JuceHeader.h"
 
+// Max buffer size
+#define kMaxChannelBufferSize 192000
+
+// Max num channels
+#define kMaxNumChannels 8
+
 #define kParameterSmoothingCoeff_Generic 0.04
 #define kParameterSmoothingCoeff_Fine 0.002
 #define kMeterSmoothingCoeff 0.2
 
-const static int maxBufferSize = 192000; // Needs to be larger than the max delay time. Better to implement with smaller buffers
-
+static const double clPIHalf = 1.5707963267948966192313216916397514420985846996;
 const static double clPI = 3.1415926535897932384626433832795028841968;
 const static double cl2PI = 6.2831853071795864769252867665590057683943;
 
@@ -31,6 +36,7 @@ static inline float dBToNormalizedGain(float inValue)
 }
 
 // Linear interpolation function
+// (https://en.wikipedia.org/wiki/Linear_interpolation)
 inline float cl_linear_interpolation(float v0, float v1, float t) // compiles within the class it is used
 {
     return (1 - t) * v0 + t * v1; // standard linear interpolation function
@@ -49,4 +55,11 @@ inline float cl_denormalize(float inValue)
     else {
         return inValue;
     }
+}
+
+// Rational tanh Approximation - Used to allow for feedback to exceed 100% 
+// (https://www.musicdsp.org/en/latest/Other/238-rational-tanh-approximation.html?highlight=tanh*/)
+inline double tanh_clip(double x)
+{
+    return x * (27 + x * x) / (27 + 9 * x * x);
 }

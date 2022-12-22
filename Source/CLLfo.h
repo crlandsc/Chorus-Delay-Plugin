@@ -32,5 +32,5 @@ private:
 
     float mPhase; // phase
 
-    float mBuffer[maxBufferSize]; // internal buffer
+    float mBuffer[kMaxChannelBufferSize]; // internal buffer
 };
