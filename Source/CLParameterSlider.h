@@ -18,8 +18,6 @@ class CLParameterSlider :
 {
 public:
 
-    //CLParameterSlider(AudioProcessorValueTreeState& stateToControl,
-    //    const String& parameterID);
     CLParameterSlider(AudioProcessorValueTreeState& stateToControl,
         const String& parameterID,
         const String& parameterLabel);
@@ -29,8 +27,6 @@ public:
 private:
 
     std::unique_ptr<AudioProcessorValueTreeState::SliderAttachment> mAttachment;
-
-    //AudioProcessorValueTreeState::SliderAttachment mAttachment;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR(CLParameterSlider); // detect memory leaks
 };

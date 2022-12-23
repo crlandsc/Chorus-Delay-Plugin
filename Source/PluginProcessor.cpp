@@ -11,7 +11,7 @@
 #include "CLParameters.h"
 
 // Initialize Parameters
-/** (Need to do this pre - constructor otherwise unhandled exception thrown for
+/** (Need to do this in constructor otherwise unhandled exception thrown for
 "this" being a nullptr) */
 AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
 {
@@ -21,7 +21,7 @@ AudioProcessorValueTreeState::ParameterLayout createParameterLayout()
 
         params.push_back(std::make_unique<AudioParameterFloat>(
             CLParameterID[i],
-            CLParameterID[i], // Can't put CLParameterLabel[i] here because of spaces in enum names
+            CLParameterID[i], // Can't put CLParameterLabel[i] here because of spaces in enum names - causes crash in Reaper
             NormalisableRange<float>(0.0f, 1.0f),
             CLParameterDefaultValue[i]));
     }
@@ -41,8 +41,8 @@ ChorusDelayAudioProcessor::ChorusDelayAudioProcessor()
                      #endif
                        ),
         parameters(
-            *this,
-            nullptr, //null pointer to undoManager (optional)
+            *this, // refernce to processor
+            nullptr, //null pointer to undoManager
             juce::Identifier("CL"), // valueTree identifier
             createParameterLayout()) // initialize parameters
 #endif
@@ -197,28 +197,37 @@ void ChorusDelayAudioProcessor::processBlock (juce::AudioBuffer<float>& buffer, 
     {
         auto* channelData = buffer.getWritePointer (channel);
 
+        float inputGain = *parameters.getRawParameterValue(CLParameterID[kParameter_InputGain]);
+        float modulationRate = *parameters.getRawParameterValue(CLParameterID[kParameter_ModulationRate]);
+        float modulationDepth = *parameters.getRawParameterValue(CLParameterID[kParameter_ModulationDepth]);
+        float delayTime = *parameters.getRawParameterValue(CLParameterID[kParameter_DelayTime]);
+        float delayFeedback = *parameters.getRawParameterValue(CLParameterID[kParameter_DelayFeedback]);
+        float wetDry = *parameters.getRawParameterValue(CLParameterID[kParameter_WetDry]);
+        float delayType = *parameters.getRawParameterValue(CLParameterID[kParameter_Type]);
+        float outputGain = *parameters.getRawParameterValue(CLParameterID[kParameter_OutputGain]);
+
         mInputGain[channel]->process(channelData,
-            getParameter(kParameter_InputGain),
+            inputGain, //getParameter(kParameter_InputGain),
             channelData,
             buffer.getNumSamples());
 
-        float rate = channel == 1 ? 0 : getParameter(kParameter_ModulationRate); // Only modulate 1 channel to make a chorus (L unaffected, R modulated)
+        float rate = channel == 1 ? 0 : modulationRate; // getParameter(kParameter_ModulationRate); // Only modulate 1 channel to make a chorus (L unaffected, R modulated)
 
         mLfo[channel]->process(rate,
-            getParameter(kParameter_ModulationDepth),
+            modulationDepth, // getParameter(kParameter_ModulationDepth),
             buffer.getNumSamples());
 
         mDelay[channel]->process(channelData,
-            getParameter(kParameter_DelayTime),
-            getParameter(kParameter_DelayFeedback),
-            getParameter(kParameter_WetDry),
-            getParameter(kParameter_Type),
+            delayTime, // getParameter(kParameter_DelayTime),
+            delayFeedback, // getParameter(kParameter_DelayFeedback),
+            wetDry, // getParameter(kParameter_WetDry),
+            delayType, // getParameter(kParameter_Type),
             mLfo[channel]->getBuffer(),
             channelData,
             buffer.getNumSamples());
 
         mOutputGain[channel]->process(channelData,
-            getParameter(kParameter_OutputGain),
+            outputGain, // getParameter(kParameter_OutputGain),
             channelData,
             buffer.getNumSamples());
 
@@ -267,13 +276,15 @@ void ChorusDelayAudioProcessor::setStateInformation (const void* data, int sizeI
     for (auto* subchild : xmlState->getChildIterator()) {
         mPresetManager->loadPresetForXml(subchild);
     }
+    
+
 
     // --- Don't use smart pointers --- //
     //std::unique_ptr<XmlElement> xmlState = std::make_unique<XmlElement>(getXmlFromBinary(data, sizeInBytes)); // Creates an XML element from the raw data being passed into setStateInformation
     //XmlElement* xmlState = getXmlFromBinary(data, sizeInBytes).get(); // retrive xml from stored binary data (need .get() because JUCE class in uniqque_ptr)
 
     // Load presets
-    //if (xmlState) {
+    //if (xmlState != nullptr) {
     //    forEachXmlChildElement(xmlState.get(), subChild) { // Juce macro to iterate over the xml element
     //        mPresetManager->loadPresetForXml(subChild);
     //    }
@@ -317,12 +328,13 @@ void ChorusDelayAudioProcessor::initializeDSP()
 
 void ChorusDelayAudioProcessor::initializeParameters()
 {
+    // Cannot initialize parameters here because it was causing issues in Reaper. Initialized them in createParameterLayout
     /*
     for (int i = 0; i < kParameter_TotalNumParameters; i++) {
         parameters.createAndAddParameter(
             CLParameterID[i],
             CLParameterID[i],
-            CLParameterID[i],
+            CLParameterLabel[i],
             NormalisableRange<float>(0.0f, 1.0f),
             0.5f,
             nullptr,

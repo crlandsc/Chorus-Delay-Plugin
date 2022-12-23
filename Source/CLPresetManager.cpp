@@ -43,16 +43,37 @@ CLPresetManager::~CLPresetManager()
 
 void CLPresetManager::getXmlForPreset(XmlElement* inElement)
 {
+    /*
     const int numParameters = mProcessor->getNumParameters();
 
     for (int i = 0; i < numParameters; i++) {
         inElement->setAttribute(mProcessor->getParameterName(i),
             mProcessor->getParameter(i));
     }
+    */
+
+    XmlElement* presetName = new XmlElement("preset_name");
+
+    presetName->setAttribute("name", mCurrentPresetName);
+
+    inElement->addChildElement(presetName);
+
+    auto& parameters = mProcessor->getParameters();
+
+    for (int i = 0; i < parameters.size(); i++)
+    {
+        AudioProcessorParameterWithID* parameter =
+            (AudioProcessorParameterWithID*)parameters.getUnchecked(i);
+
+        inElement->setAttribute(parameter->paramID, parameter->getValue());
+    }
+
 }
 
 void CLPresetManager::loadPresetForXml(XmlElement* inElement)
 {
+
+    /*
     mCurrentPresetXml = inElement;
 
     const int numParameters = mProcessor->getNumParameters();
@@ -68,6 +89,36 @@ void CLPresetManager::loadPresetForXml(XmlElement* inElement)
             }
         }
     }
+    */
+
+    mCurrentPresetXml = inElement;
+
+    XmlElement* presetName = inElement->getChildByName("preset_name");
+
+    // early return if presetName element is nullptr
+    if (presetName == nullptr) { return; }
+
+    mCurrentPresetName = presetName->getStringAttribute("name", "error");
+
+    // iterate our XML for attribute name and value
+    auto& parameters = mProcessor->getParameters();
+
+    for (int i = 0; i < mCurrentPresetXml->getNumAttributes(); i++) {
+
+        const String paramId = mCurrentPresetXml->getAttributeName(i);
+        const float value = mCurrentPresetXml->getDoubleAttribute(paramId);
+
+        for (int j = 0; j < parameters.size(); j++) {
+
+            AudioProcessorParameterWithID* parameter =
+                (AudioProcessorParameterWithID*)parameters.getUnchecked(i);
+
+            if (paramId == parameter->paramID) {
+                parameter->setValueNotifyingHost(value);
+            }
+        }
+    }
+
 
 }
 
@@ -83,6 +134,7 @@ String CLPresetManager::getPresetName(int inPresetIndex)
 
 void CLPresetManager::createNewPreset()
 {
+    /*
     const int numParameters = mProcessor->getNumParameters();
 
     for (int i = 0; i < numParameters; i++) {
@@ -91,6 +143,25 @@ void CLPresetManager::createNewPreset()
 
     mCurrentPresetIsSaved = false;
     mCurrentPresetName = "Untitled";
+    */
+
+    auto& parameters = mProcessor->getParameters();
+
+    for (int i = 0; i < parameters.size(); i++) {
+
+        AudioProcessorParameterWithID* parameter =
+            (AudioProcessorParameterWithID*)parameters.getUnchecked(i);
+
+        const float defaultValue =
+            parameter->getDefaultValue();
+
+        parameter->setValueNotifyingHost(defaultValue);
+    }
+
+    // update our bool
+    mCurrentPresetIsSaved = false;
+    mCurrentPresetName = "Untitled";
+
 }
 
 void CLPresetManager::savePreset()
@@ -98,8 +169,10 @@ void CLPresetManager::savePreset()
     MemoryBlock destinationData;
     mProcessor->getStateInformation(destinationData);
 
+    // Deleter original file
     mCurrentlyLoadedPreset.deleteFile();
 
+    // Append data
     mCurrentlyLoadedPreset.appendData(
         destinationData.getData(),
         destinationData.getSize());

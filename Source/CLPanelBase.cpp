@@ -38,7 +38,9 @@ void CLPanelBase::paint(Graphics& g)
     // Mouse interactions using paint routines
     /* Not implemented currently, but can incorporate later */
     if (isMouseOver()) {
-        //g.setColour(CLColour_3);
+        // Implement hover behavior
+        //const Colour hoverColour = Colour(Colours::black).withAlpha(0.4f);
+        //g.setColour(hoverColour);
         //g.fillAll();
     }
     else {
